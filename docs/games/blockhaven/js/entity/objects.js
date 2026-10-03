@@ -1,15 +1,15 @@
 // Non-living entities: dropped items, XP orbs, projectiles, falling blocks, primed TNT, lightning.
-import { Entity, M } from './entity.js?v=musy7z5d';
-import { itemMesh, emitItemMesh } from './itemmesh.js?v=musy7z5d';
-import { I } from '../data/items.js?v=musy7z5d';
-import { B, BLOCKS, SOLID, OPAQUE } from '../data/blocks.js?v=musy7z5d';
-import { compose, translation, rotationX, rotationY, rotationZ, scaling } from '../core/math.js?v=musy7z5d';
-import { maxStack } from '../data/items.js?v=musy7z5d';
-import { moveEntity } from './physics.js?v=musy7z5d';
-import { fluidPush } from '../game/fluid.js?v=musy7z5d';
-import { AreaCloud } from './cloud.js?v=musy7z5d';
-import { AQUATIC } from '../game/combat.js?v=musy7z5d';
-import { hasGlint } from '../data/enchantments.js?v=musy7z5d';
+import { Entity, M } from './entity.js?v=musyrlix';
+import { itemMesh, emitItemMesh } from './itemmesh.js?v=musyrlix';
+import { I } from '../data/items.js?v=musyrlix';
+import { B, BLOCKS, SOLID, OPAQUE } from '../data/blocks.js?v=musyrlix';
+import { compose, translation, rotationX, rotationY, rotationZ, scaling } from '../core/math.js?v=musyrlix';
+import { maxStack } from '../data/items.js?v=musyrlix';
+import { moveEntity } from './physics.js?v=musyrlix';
+import { fluidPush } from '../game/fluid.js?v=musyrlix';
+import { AreaCloud } from './cloud.js?v=musyrlix';
+import { AQUATIC } from '../game/combat.js?v=musyrlix';
+import { hasGlint } from '../data/enchantments.js?v=musyrlix';
 
 // Billboarded sprite quad facing the camera.
 export function billboard(batch, ctx, x, y, z, size, layer, color, uv = [0, 0, 1, 1]) {

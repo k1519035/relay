@@ -1,8 +1,8 @@
-import { CHUNK, TEX, DIM } from '../data/blocks.js?v=musy7z5d';
-import { meshSingleBlock, STRIDE } from '../mesh/mesher.js?v=musy7z5d';
-import * as S from './shaders.js?v=musy7z5d';
-import { uploadArray, updateLayer, uploadLayerChain, buildMipChain } from './atlas.js?v=musy7z5d';
-import { mat4, perspective, multiply, invert, viewMatrix, frustumPlanes, boxVisible } from '../core/math.js?v=musy7z5d';
+import { CHUNK, TEX, DIM } from '../data/blocks.js?v=musyrlix';
+import { meshSingleBlock, STRIDE } from '../mesh/mesher.js?v=musyrlix';
+import * as S from './shaders.js?v=musyrlix';
+import { uploadArray, updateLayer, uploadLayerChain, buildMipChain } from './atlas.js?v=musyrlix';
+import { mat4, perspective, multiply, invert, viewMatrix, frustumPlanes, boxVisible } from '../core/math.js?v=musyrlix';
 
 // Graphics presets: 0 Disabled, 1 Regular, 2 High, 3 PC.
 export const QUALITY = [
@@ -56,6 +56,9 @@ export class Renderer {
     const gl = canvas.getContext('webgl2', { antialias: false, alpha: false, depth: true, powerPreference: 'high-performance', preserveDrawingBuffer: false, desynchronized: !!opts.lowLatency });
     if (!gl) throw new Error('WebGL 2 is not available in this browser.');
     this.gl = gl;
+    // A desynchronized canvas shows its buffer while it is being drawn, so frames must only ever
+    // reach it whole, in the final full-screen pass.
+    this.frontBuffer = !!gl.getContextAttributes().desynchronized;
     this.canvas = canvas;
     this.stats = { chunks: 0, quads: 0, draws: 0 };
     this.draws = 0;
@@ -520,8 +523,9 @@ export class Renderer {
     this.shadowStrength = shadowMat ? 0.42 * sunUp : 0;
     // Only the presets above Fast and a few passing effects (underwater wobble, portal swirl,
     // flashes, the sleeping fade) need the finished scene as a texture; otherwise it is drawn
-    // straight to the screen, saving a full-screen copy every frame.
-    const direct = this.quality === 0 && !(s.medium > 0.5 && s.medium < 1.5) && !(fx.portal > 0) && !(fx.flash > 0) && !(fx.dark > 0);
+    // straight to the screen, saving a full-screen copy every frame (unless the canvas is
+    // desynchronized: it would show the frame half drawn).
+    const direct = !this.frontBuffer && this.quality === 0 && !(s.medium > 0.5 && s.medium < 1.5) && !(fx.portal > 0) && !(fx.flash > 0) && !(fx.dark > 0);
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, direct ? null : this.sceneTarget());
     gl.viewport(0, 0, w, h);
