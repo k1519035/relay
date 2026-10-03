@@ -1,6 +1,6 @@
 // Item stacks and containers. A stack is { key, count, dmg?, tag? } or null.
-import { I, maxStack } from '../data/items.js?v=musn9kyc';
-import { unbreakingSaves } from './combat.js?v=musn9kyc';
+import { I, maxStack } from '../data/items.js?v=musnlb5a';
+import { unbreakingSaves } from './combat.js?v=musnlb5a';
 
 export const stack = (key, count = 1, extra = {}) => (I[key] ? { key, count, ...extra } : null);
 export const clone = s => (s ? { ...s, tag: s.tag ? { ...s.tag } : undefined } : null);

@@ -385,10 +385,10 @@ export class Interact {
     if (g.dim !== DIM.OVERWORLD) { g.explode([t.x + 0.5, t.y + 0.5, t.z + 0.5], 5, { fire: true }); return true; }
     g.spawn = [t.x + 0.5, t.y + 0.6, t.z + 0.5];
     g.chat('Respawn point set', '#aaaaaa');
-    if (g.isDay() && !g.raining) { g.chat('You can only sleep at night or during thunderstorms', '#aaaaaa'); return true; }
+    if (g.isDay()) { g.chat('You can sleep only at night or during thunderstorms', '#aaaaaa'); return true; }
     const monsters = g.entities.near(g.player.pos, 8, e => e.def && e.def.kind === 'hostile');
     if (monsters.length && g.survivalLike) { g.chat('You may not rest now; there are monsters nearby', '#ff8080'); return true; }
-    g.app.sleep(() => { g.dayTime = 0.0; g.day++; g.weather.target = 0; g.weather.rain = 0; g.weather.thunder = 0; g.nightsNoSleep = 0; });
+    g.app.sleep(() => { g.dayTime = 0.0; g.day++; if (g.rules.doWeatherCycle && g.raining) Object.assign(g.weather, { rainTime: 0, raining: false, thunderTime: 0, thundering: false }); g.nightsNoSleep = 0; });
     return true;
   }
 

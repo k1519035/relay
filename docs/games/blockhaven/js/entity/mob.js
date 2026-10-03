@@ -191,6 +191,8 @@ export class Mob extends Entity {
     if (d.sizes && this.size > 1) for (let k = 0; k < rint(2, 4); k++) g.spawnMob(this.mobType, this.pos[0] + rnd(-0.5, 0.5), this.pos[1] + 0.5, this.pos[2] + rnd(-0.5, 0.5), { size: this.size / 2 });
     if (src.attacker === g.playerEntity) g.onKill(this);
   }
+  // Entity.isInRain: rain falling where it stands, or at the top of it.
+  inRain() { const g = this.game; return g.rainAt(this.pos[0], this.pos[1], this.pos[2]) || g.rainAt(this.pos[0], this.pos[1] + this.h, this.pos[2]); }
   setFire(s) { if (!this.def.fireImmune) this.fire = Math.max(this.fire, s); }
   teleportRandom() {
     const w = this.world;
@@ -462,10 +464,10 @@ export class Mob extends Entity {
     // Undead burn in daylight.
     if (d.burns && g.isDay() && g.dim === 0 && !this.inWater) {
       const l = w.lightAt(this.pos[0], this.pos[1] + this.h, this.pos[2]);
-      if (l.sky >= 15 && !g.raining && Math.random() < dt * 2) this.setFire(8);
+      if (l.sky >= 15 && !this.inRain() && Math.random() < dt * 2) this.setFire(8);
     }
-    if (d.hurtByWater && (this.inWater || (g.raining && w.lightAt(this.pos[0], this.pos[1] + 1, this.pos[2]).sky >= 15)) && Math.random() < dt * 2) this.hurt(1, { kind: 'drown' });
-    if (d.hatesWater && (this.inWater || (g.raining && g.dim === 0 && w.lightAt(this.pos[0], this.pos[1] + 2, this.pos[2]).sky >= 15)) && Math.random() < dt * 2) { this.hurt(1, { kind: 'drown' }); this.teleportRandom(); }
+    if (d.hurtByWater && (this.inWater || this.inRain()) && Math.random() < dt * 2) this.hurt(1, { kind: 'drown' });
+    if (d.hatesWater && (this.inWater || this.inRain()) && Math.random() < dt * 2) { this.hurt(1, { kind: 'drown' }); this.teleportRandom(); }
     // Fish out of water.
     if (d.ai === 'fish' || this.mobType === 'squid' || this.mobType === 'glow_squid' || this.mobType === 'dolphin') {
       if (!this.inWater) { this.air -= dt; if (this.onGround && Math.random() < dt * 3) { this.vel[1] = 4; this.vel[0] = rnd(-2, 2); this.vel[2] = rnd(-2, 2); } if (this.air < 0 && Math.random() < dt) this.hurt(1, { kind: 'drown' }); }
@@ -1300,7 +1302,7 @@ export class Mob extends Entity {
 }
 
 // Moves an entity without gravity handling (fliers/swimmers).
-import { moveEntity } from './physics.js?v=musn9kyc';
+import { moveEntity } from './physics.js?v=musnlb5a';
 function import_move(e, dt) { moveEntity(e.world, e, e.vel[0] * dt, e.vel[1] * dt, e.vel[2] * dt); }
 
 // Renders a held item using a part matrix (model units).
