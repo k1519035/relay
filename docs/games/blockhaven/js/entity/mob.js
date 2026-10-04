@@ -1,23 +1,23 @@
 // Living mobs: physics, AI archetypes, combat, breeding/taming, trading and animation.
-import { Entity, drawModel, rootMatrix, M } from './entity.js?v=mut96ek2';
-import { Projectile, renderStack } from './objects.js?v=mut96ek2';
-import { MOBS, PROFESSIONS, DYE_DIFFUSE } from '../data/mobs.js?v=mut96ek2';
-import { B, BLOCKS, SOLID, OPAQUE, VARIANT_MASK } from '../data/blocks.js?v=mut96ek2';
-import { UNLOADED } from '../world/world.js?v=mut96ek2';
-import { villagerTrades } from '../game/trades.js?v=mut96ek2';
-import { findPath, clearWalk } from './pathfind.js?v=mut96ek2';
-import { ARMOR_BYPASS, armorStats, armorReduce, applyInvul } from '../game/combat.js?v=mut96ek2';
-import { animalPose, chickenPose, wolfPose, horsePose } from './animals.js?v=mut96ek2';
-import { villagerPose, illagerPose, piglinPose } from './javamodels.js?v=mut96ek2';
-import { ironGolemPose, ironGolemSway, snowGolemPose, hoglinPose, striderPose, ravagerPose } from './beasts.js?v=mut96ek2';
-import { squidPose, fishPose, fishSway, pufferfishPose, guardianPose, dolphinPose, turtlePose, axolotlPose } from './aquatic.js?v=mut96ek2';
-import { witherPose, dragonPose, dragonHistory } from './bosses.js?v=mut96ek2';
-import { rabbitPose, ocelotPose, parrotPose, batPose, frogPose, camelPose } from './critters.js?v=mut96ek2';
-import { creeperPose, spiderPose, endermanPose, magmaPose, silverfishPose, blazePose, ghastPose, phantomPose } from './monsters.js?v=mut96ek2';
-import { humanoidPose } from './humanoid.js?v=mut96ek2';
-import { armorLayer } from '../data/armor.js?v=mut96ek2';
-import { I } from '../data/items.js?v=mut96ek2';
-import { dragonInit, dragonAI, dragonDamage, dragonDying, dragonHead } from './dragon.js?v=mut96ek2';
+import { Entity, drawModel, rootMatrix, M } from './entity.js?v=mutbtdcx';
+import { Projectile, renderStack } from './objects.js?v=mutbtdcx';
+import { MOBS, PROFESSIONS, DYE_DIFFUSE } from '../data/mobs.js?v=mutbtdcx';
+import { B, BLOCKS, SOLID, OPAQUE, VARIANT_MASK } from '../data/blocks.js?v=mutbtdcx';
+import { UNLOADED } from '../world/world.js?v=mutbtdcx';
+import { villagerTrades } from '../game/trades.js?v=mutbtdcx';
+import { findPath, clearWalk } from './pathfind.js?v=mutbtdcx';
+import { ARMOR_BYPASS, armorStats, armorReduce, applyInvul } from '../game/combat.js?v=mutbtdcx';
+import { animalPose, chickenPose, wolfPose, horsePose } from './animals.js?v=mutbtdcx';
+import { villagerPose, illagerPose, piglinPose } from './javamodels.js?v=mutbtdcx';
+import { ironGolemPose, ironGolemSway, snowGolemPose, hoglinPose, striderPose, ravagerPose } from './beasts.js?v=mutbtdcx';
+import { squidPose, fishPose, fishSway, pufferfishPose, guardianPose, dolphinPose, turtlePose, axolotlPose } from './aquatic.js?v=mutbtdcx';
+import { witherPose, dragonPose, dragonHistory } from './bosses.js?v=mutbtdcx';
+import { rabbitPose, ocelotPose, parrotPose, batPose, frogPose, camelPose } from './critters.js?v=mutbtdcx';
+import { creeperPose, spiderPose, endermanPose, magmaPose, silverfishPose, blazePose, ghastPose, phantomPose } from './monsters.js?v=mutbtdcx';
+import { humanoidPose } from './humanoid.js?v=mutbtdcx';
+import { armorLayer } from '../data/armor.js?v=mutbtdcx';
+import { I } from '../data/items.js?v=mutbtdcx';
+import { dragonInit, dragonAI, dragonDamage, dragonDying, dragonHead } from './dragon.js?v=mutbtdcx';
 
 const rnd = (a, b) => a + Math.random() * (b - a);
 const rint = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
@@ -282,7 +282,7 @@ export class Mob extends Entity {
     if (this.age - (this.clearT ?? -9) > 0.35) { this.clearT = this.age; this.lastClear = dist < 20 && clearWalk(this.world, this.pos, p, Math.ceil(this.h)); }
     if (this.lastClear) { this.path = null; this.closeDoors(); return this.moveTo(p, speed, dt); }
     const goalMoved = !this.pathGoal || Math.hypot(this.pathGoal[0] - p[0], this.pathGoal[2] - p[2]) > 2.5;
-    if ((!this.path || goalMoved || this.stuck > 0.8) && this.age >= (this.repathT || 0) && g.pathBudget > 0) {
+    if ((!this.path || goalMoved || this.stuck > 0.8) && this.age >= (this.repathT || 0) && g.pathBudget > 0 && (g.pathBudget === 4 || performance.now() < g.pathUntil)) {
       g.pathBudget--;
       this.repathT = this.age + 0.6 + Math.random() * 0.4; this.stuck = 0;
       const r = findPath(this.world, this.pos, p, { height: Math.ceil(this.h), doors: this.mobType === 'villager' || this.mobType === 'wandering_trader', maxNodes: this.target ? 900 : 500 });
@@ -1302,7 +1302,7 @@ export class Mob extends Entity {
 }
 
 // Moves an entity without gravity handling (fliers/swimmers).
-import { moveEntity } from './physics.js?v=mut96ek2';
+import { moveEntity } from './physics.js?v=mutbtdcx';
 function import_move(e, dt) { moveEntity(e.world, e, e.vel[0] * dt, e.vel[1] * dt, e.vel[2] * dt); }
 
 // Renders a held item using a part matrix (model units).

@@ -1,50 +1,50 @@
 // Blockhaven bootstrap: assets, menus, input, camera, frame loop.
-import './page.js?v=mut96ek2';
-import { surfaceDocument as document } from './surface.js?v=mut96ek2';
-import { registerApp } from './veil.js?v=mut96ek2';
-import { movementSamples } from './util/pointer.js?v=mut96ek2';
-import { ask, tell } from './dialog.js?v=mut96ek2';
-import { Demo, DEMO_SEED } from './demo.js?v=mut96ek2';
-import { armorLayerModel, armorLayer, ARMOR_MATERIALS, LEATHER_COLOR, elytraModel } from './data/armor.js?v=mut96ek2';
-import { humanoidPose, processSkin } from './entity/humanoid.js?v=mut96ek2';
-import { TEXTURES, TEX, B, BLOCKS, DIM, DIM_NAMES, SHAPE_OF, SHAPE, props, HEIGHT, STATE, VARIANT_MASK } from './data/blocks.js?v=mut96ek2';
-import { I, ITEMS } from './data/items.js?v=mut96ek2';
-import { MOBS, PROFESSIONS, playerModel, saddleModel, PLAYER_SKINS } from './data/mobs.js?v=mut96ek2';
-import { Net, cleanCode, cleanName, cleanKey, cleanChat, chatLine, MAX_PLAYERS, wakeRelays, diagnoseNetwork } from './net/net.js?v=mut96ek2';
-import { NameTags } from './net/nametags.js?v=mut96ek2';
-import { BIOMES } from './gen/biomes.js?v=mut96ek2';
-import { generateBlockTextures, drawBlockTexture } from './render/blocktex.js?v=mut96ek2';
-import { cloudTexture } from './render/cloudtex.js?v=mut96ek2';
-import { generateItemTextures, ITEM_LAYER, FX_LAYER, ITEM_LAYER_COUNT, flatTexFor } from './render/itemtex.js?v=mut96ek2';
-import { Zip, storedPack, savePack, removePack, applyBlockTextures, applyItemTextures, applyArmorTextures, readEntityTexture, readCloudTexture, indexSounds } from './render/pack.js?v=mut96ek2';
-import { packModel, paintModel, ENTITY, texFactor, faceRects } from './render/mobtex.js?v=mut96ek2';
-import { buildMipChain } from './render/atlas.js?v=mut96ek2';
-import { Renderer, Batch } from './render/renderer.js?v=mut96ek2';
-import { generateWeatherTextures, readWeatherTextures } from './render/weathertex.js?v=mut96ek2';
-import { precipitationAt, precipitationHeight } from './game/weather.js?v=mut96ek2';
-import { JavaRandom } from './core/jrandom.js?v=mut96ek2';
-import { collisionBoxes } from './data/shapes.js?v=mut96ek2';
-import { World, UNLOADED } from './world/world.js?v=mut96ek2';
-import { createGenerator } from './gen/index.js?v=mut96ek2';
-import { Game } from './game/game.js?v=mut96ek2';
-import { Interact, crossbowCharge } from './game/interact.js?v=mut96ek2';
-import { SpawnPrep, STATUS_COLOR } from './game/spawnprep.js?v=mut96ek2';
-import { splash } from './splash.js?v=mut96ek2';
-import { Commands } from './game/commands.js?v=mut96ek2';
-import { GUI, HUD } from './game/ui.js?v=mut96ek2';
-import { buildIcons, hudSprites } from './game/icons.js?v=mut96ek2';
-import { Sound } from './game/audio.js?v=mut96ek2';
-import { buildLogo, buttonTexture, dirtTexture, iconDataURL } from './render/logo.js?v=mut96ek2';
-import { computeEnv } from './game/env.js?v=mut96ek2';
-import { guideSections } from './game/guide.js?v=mut96ek2';
-import { listWorlds, loadWorld, saveWorld, deleteWorld } from './game/storage.js?v=mut96ek2';
-import { importJavaWorld, exportJavaWorld } from './game/javaworld.js?v=mut96ek2';
-import { drawModel, rootMatrix, M } from './entity/entity.js?v=mut96ek2';
-import { itemMesh, emitItemMesh, clearItemMeshes } from './entity/itemmesh.js?v=mut96ek2';
-import { Lightning, billboard } from './entity/objects.js?v=mut96ek2';
-import { compose, translation, rotationX, rotationY, rotationZ, scaling, forward, mat4 } from './core/math.js?v=mut96ek2';
-import { hasGlint } from './data/enchantments.js?v=mut96ek2';
-import { BarrelRoll } from './game/barrelroll.js?v=mut96ek2';
+import './page.js?v=mutbtdcx';
+import { surfaceDocument as document } from './surface.js?v=mutbtdcx';
+import { registerApp } from './veil.js?v=mutbtdcx';
+import { movementSamples } from './util/pointer.js?v=mutbtdcx';
+import { ask, tell } from './dialog.js?v=mutbtdcx';
+import { Demo, DEMO_SEED } from './demo.js?v=mutbtdcx';
+import { armorLayerModel, armorLayer, ARMOR_MATERIALS, LEATHER_COLOR, elytraModel } from './data/armor.js?v=mutbtdcx';
+import { humanoidPose, processSkin } from './entity/humanoid.js?v=mutbtdcx';
+import { TEXTURES, TEX, B, BLOCKS, DIM, DIM_NAMES, SHAPE_OF, SHAPE, props, HEIGHT, STATE, VARIANT_MASK } from './data/blocks.js?v=mutbtdcx';
+import { I, ITEMS } from './data/items.js?v=mutbtdcx';
+import { MOBS, PROFESSIONS, playerModel, saddleModel, PLAYER_SKINS } from './data/mobs.js?v=mutbtdcx';
+import { Net, cleanCode, cleanName, cleanKey, cleanChat, chatLine, MAX_PLAYERS, wakeRelays, diagnoseNetwork } from './net/net.js?v=mutbtdcx';
+import { NameTags } from './net/nametags.js?v=mutbtdcx';
+import { BIOMES } from './gen/biomes.js?v=mutbtdcx';
+import { generateBlockTextures, drawBlockTexture } from './render/blocktex.js?v=mutbtdcx';
+import { cloudTexture } from './render/cloudtex.js?v=mutbtdcx';
+import { generateItemTextures, ITEM_LAYER, FX_LAYER, ITEM_LAYER_COUNT, flatTexFor } from './render/itemtex.js?v=mutbtdcx';
+import { Zip, storedPack, savePack, removePack, applyBlockTextures, applyItemTextures, applyArmorTextures, readEntityTexture, readCloudTexture, indexSounds } from './render/pack.js?v=mutbtdcx';
+import { packModel, paintModel, ENTITY, texFactor, faceRects } from './render/mobtex.js?v=mutbtdcx';
+import { buildMipChain } from './render/atlas.js?v=mutbtdcx';
+import { Renderer, Batch } from './render/renderer.js?v=mutbtdcx';
+import { generateWeatherTextures, readWeatherTextures } from './render/weathertex.js?v=mutbtdcx';
+import { precipitationAt, precipitationHeight } from './game/weather.js?v=mutbtdcx';
+import { JavaRandom } from './core/jrandom.js?v=mutbtdcx';
+import { collisionBoxes } from './data/shapes.js?v=mutbtdcx';
+import { World, UNLOADED } from './world/world.js?v=mutbtdcx';
+import { createGenerator } from './gen/index.js?v=mutbtdcx';
+import { Game } from './game/game.js?v=mutbtdcx';
+import { Interact, crossbowCharge } from './game/interact.js?v=mutbtdcx';
+import { SpawnPrep, STATUS_COLOR } from './game/spawnprep.js?v=mutbtdcx';
+import { splash } from './splash.js?v=mutbtdcx';
+import { Commands } from './game/commands.js?v=mutbtdcx';
+import { GUI, HUD } from './game/ui.js?v=mutbtdcx';
+import { buildIcons, hudSprites } from './game/icons.js?v=mutbtdcx';
+import { Sound } from './game/audio.js?v=mutbtdcx';
+import { buildLogo, buttonTexture, dirtTexture, iconDataURL } from './render/logo.js?v=mutbtdcx';
+import { computeEnv } from './game/env.js?v=mutbtdcx';
+import { guideSections } from './game/guide.js?v=mutbtdcx';
+import { listWorlds, loadWorld, saveWorld, deleteWorld } from './game/storage.js?v=mutbtdcx';
+import { importJavaWorld, exportJavaWorld } from './game/javaworld.js?v=mutbtdcx';
+import { drawModel, rootMatrix, M } from './entity/entity.js?v=mutbtdcx';
+import { itemMesh, emitItemMesh, clearItemMeshes } from './entity/itemmesh.js?v=mutbtdcx';
+import { Lightning, billboard } from './entity/objects.js?v=mutbtdcx';
+import { compose, translation, rotationX, rotationY, rotationZ, scaling, forward, mat4 } from './core/math.js?v=mutbtdcx';
+import { hasGlint } from './data/enchantments.js?v=mutbtdcx';
+import { BarrelRoll } from './game/barrelroll.js?v=mutbtdcx';
 
 const $ = id => document.getElementById(id);
 // Resolves after the page has painted what was just put on screen.
@@ -132,6 +132,10 @@ function cycle(btn, label, opts, get, set) {
 const toggle = (btn, label, get, set) => cycle(btn, label, [[true, 'ON'], [false, 'OFF']], get, set);
 
 class App {
+  // Item icons, drawn the first time something shows one (a world, the guide). Built at start-up
+  // they were drawn twice, once with the built-in textures and again with the bundled pack's.
+  get icons() { return this._icons || (this._icons = buildIcons(this.blockTex, this.itemTex)); }
+  set icons(v) { this._icons = v; }
   constructor() {
     this.settings = settings;
     this.mode = 'title';
@@ -196,7 +200,6 @@ class App {
     this.renderer.setWeatherTextures(this.weatherTex);
     this.loadCustomSkin();
     splash.progress(0.6);
-    this.icons = buildIcons(this.blockTex, this.itemTex);
     this.sprites = hudSprites();
     this.sound = new Sound();
     this.sound.volume = settings.volume / 100; this.sound.music = settings.music / 100;
@@ -209,6 +212,9 @@ class App {
     fitSplash(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitSplash);
     this.fontsReady = !document.fonts; if (document.fonts) document.fonts.ready.then(() => { this.fontsReady = true; });
     this.buildTitleArt();
+    // The shaders have been compiling alongside the texture painting above; wait for them now, so a
+    // driver that rejects one still gets the startup error screen.
+    try { this.renderer.finishPrograms(); } catch (e) { this.fatal(`Graphics startup failed: ${e.message.split('\n')[0]}`); return false; }
     this.startPanorama();
     splash.progress(0.7);
     requestAnimationFrame(t => this.frame(t));
@@ -812,7 +818,7 @@ class App {
     for (const f of ['bow_pulling_0', 'bow_pulling_1', 'bow_pulling_2', 'crossbow_pulling_0', 'crossbow_pulling_1', 'crossbow_pulling_2', 'crossbow_arrow', 'crossbow_firework', 'fishing_rod_cast']) if (FX_LAYER[f] !== undefined) entries.push([f, FX_LAYER[f], null]);
     const ni = await applyItemTextures(zip, entries, this.itemTex);
     if (ni) { this.renderer.setItemTextures(buildMipChain(this.itemTex), this.itemTex.length); clearItemMeshes(); }
-    this.icons = buildIcons(this.blockTex, this.itemTex);
+    this.icons = null; // rebuilt when next needed
     document.documentElement.style.setProperty('--dirt-tex', `url(${dirtTexture(this.blockTex[TEX.dirt])})`);
     if (this.game) { this.game.icons = this.icons; this.game.invDirty = true; }
     const sounds = indexSounds(zip);
@@ -1275,7 +1281,8 @@ class App {
       this.mouse.leftClicked = this.mouse.rightClicked = false;
       if (this.gui.isOpen) this.gui.update();
       this.saveT += dt;
-      if (this.saveT > 45) { this.saveT = 0; this.saveGame(); }
+      // Autosave between frames when the browser has a moment (or after 2 s), not in the middle of one.
+      if (this.saveT > 45) { this.saveT = 0; if (window.requestIdleCallback) requestIdleCallback(() => this.saveGame(), { timeout: 2000 }); else this.saveGame(); }
     }
     if (this.sleeping) {
       this.sleeping.t += dt;
