@@ -1,4 +1,4 @@
-import { surfaceDocument as document } from './surface.js?v=mut6p01b';
+import { surfaceDocument as document } from './surface.js?v=mut7z1no';
 let pending = Promise.resolve();
 function show(message, question) {
   const result = pending.then(() => new Promise(resolve => {
